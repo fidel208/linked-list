@@ -43,7 +43,7 @@ class LinkedList {
     return count;
   }
 
-  head() {
+  headNode() {
     return this.head;
   }
 
@@ -67,7 +67,7 @@ class LinkedList {
     let count = 0;
     let current = this.head;
 
-    while (curren !== null) {
+    while (current !== null) {
       if (count === index) {
         return current;
       }
@@ -87,7 +87,7 @@ class LinkedList {
     }
 
     let current = this.head;
-    while (current.nextNode !== null) {
+    while (current.nextNode.nextNode !== null) {
       current = current.nextNode;
     }
     current.nextNode = null;
@@ -122,10 +122,67 @@ class LinkedList {
     let result = "";
 
     while (current !== null) {
-        result += `( &{current.value} -> )`;
+        result += `( ${current.value} ) -> `;
         current = current.nextNode;
     }
     result += "null";
     return result;
   }
+
+  insertAt(value, index) {
+    if (index < 0) {
+        console.log("Invalid");
+        return;
+    }
+
+    if (index === 0) {
+        this.prepend(value);
+        return;
+    }
+
+    const newNode = new Node(value);
+    let current = this.head;
+    let count = 0;
+
+    while (current !== null && count < index -1) {
+        current = current.nextNode;
+        count++;
+    }
+
+    if (current === null) {
+        console.log("Index out of range");
+        return;
+    }
+    newNode.nextNode = current.nextNode;
+    current.nextNode = newNode;
+  }
+
+  removeAt(index) {
+    if (index < 0 || !this.head) {
+        console.log("Index not found");
+        return;
+    }
+
+    if (index === 0) {
+        this.head = this.head.nextNode;
+        return;
+    }
+
+    let current = this.head;
+    let count = 0;
+
+    while (current.nextNode && count < index - 1) {
+        current = current.nextNode;
+        count++;
+    }
+
+    if (!current.nextNode) {
+        console.log("Index out of range");
+        return;
+    }
+    current.nextNode = current.nextNode.nextNode;
+  }
+
 }
+
+export default LinkedList;
